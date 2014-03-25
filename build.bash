@@ -86,7 +86,7 @@ fetchall() {
 	fi
 
 	execute svnfetch "http://svn.apache.org/repos/asf/qpid/trunk/qpid/java/management/common/src/main/" "qpid"
-	execute svnfetch "http://svn.apache.org/repos/asf/harmony/enhanced/java/trunk/classlib/modules/auth/src/main/java/common/" "harmony" 
+	execute svnfetch "http://svn.apache.org/repos/asf/harmony/enhanced/java/trunk/classlib/modules/auth/src/main/java/common/" "harmony"
 	# dnsjava is now in bootclasspath
 	# execute svnfetch "https://svn.code.sf.net/p/dnsjava/code/trunk" "dnsjava"
 	$BUILD_BOSH && execute gitfetch "git://kenai.com/jbosh~origin" "master" "jbosh"
@@ -243,6 +243,8 @@ buildandroid() {
 		sdklocation=${ANDROID_HOME}
 	fi
 
+	SAVEIFS=$IFS
+	IFS=$(echo -en "\n\b")
 	for f in ${sdklocation}/platforms/* ; do
 		version=`basename $f`
 		if [[ "$version" != android-* ]] ; then
@@ -263,6 +265,7 @@ buildandroid() {
 		fi
 
 	done
+	IFS=$SAVEIFS
 
 	if [ -z "${sdks}" ] ; then
 		echo "No SDKs of a suitable minimal API (${minSdkVer}) version found"
